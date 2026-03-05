@@ -1,25 +1,16 @@
 from pathlib import Path
+from utils.paths import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
 import yfinance as yf
 
-#setup path to a data folder
-DATA_PATH = Path(__file__).resolve().parents[1]
-
 #raw data paths
-RAW_PATH = DATA_PATH / "data" / "raw"
-OIL_FUTURES_PATH = RAW_PATH / "oil_futures"
-
-OIL_FUTURES_PATH.mkdir(parents=True, exist_ok=True)
-
-#processed data paths
-PROCESSED_PATH = DATA_PATH / "data" / "processed"
-
-
+RAW_OIL_FUTURES_PATH = RAW_DATA_DIR / "oil_futures"
+RAW_OIL_FUTURES_PATH.mkdir(parents=True, exist_ok=True)
 
 def download_oil_futures(start, end, interval):
     #NOTE: df stands for dataframe since yfinance download saves historical_data as a pandas dataframe
     df = yf.download("CL=F", start=start, end=end, interval=interval)
-    df.to_csv(OIL_FUTURES_PATH / "oil_futures.csv")
+    df.to_csv(RAW_OIL_FUTURES_PATH / "oil_futures.csv")
 
     print(df.head())
 
