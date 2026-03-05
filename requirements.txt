@@ -1,4 +1,12 @@
+#paths
 pathlib
+
+#finance apis
 yfinance
+
+#math functions
 pandas
 numpy
+
+#visuliztion
+matplotlib

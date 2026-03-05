@@ -27,7 +27,9 @@ def garman_klass_volatility(df, window):
 df = pd.read_csv(RAW_DATA_DIR / "oil_futures/oil_futures_daily.csv", parse_dates=["Date"])
 df.set_index('Date', inplace=True) #allows dates to be read as a date time object and used as a index
 
+#NOTE: this adds a column using the function
 df['vol_gk'] = garman_klass_volatility(df, 20)
 
-print(df.tail())
+df.to_csv(PROCESSED_OIL_FUTURES_DIR / "oil_futures_daily_with_volgk.csv")
 
+print(df.tail())
