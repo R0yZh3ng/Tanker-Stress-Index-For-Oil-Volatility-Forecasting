@@ -70,7 +70,7 @@ bdti_df.set_index('Date', inplace=True)
 
 bdti_df["decimal_change"] = (bdti_df["Change %"].str.strip("%").str.replace(",", "").astype(float))
 
-#NOTE: create lagged days because market reaction to data is often delayed
+#NOTE: create lagged days because market reaction to data is often delayed, we can figure out how far the violatility is lagged compared to the news and use that specific data to model volatility
 bdti_df["lag_1_day"] = bdti_df["decimal_change"].shift(1)
 bdti_df["lag_3_day"] = bdti_df["decimal_change"].shift(3)
 bdti_df["lag_5_day"] = bdti_df["decimal_change"].shift(5)
