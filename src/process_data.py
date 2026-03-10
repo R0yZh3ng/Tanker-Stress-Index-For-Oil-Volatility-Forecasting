@@ -75,6 +75,6 @@ bdti_df["lag_1_day"] = bdti_df["decimal_change"].shift(1)
 bdti_df["lag_3_day"] = bdti_df["decimal_change"].shift(3)
 bdti_df["lag_5_day"] = bdti_df["decimal_change"].shift(5)
 
-bdti_df.to_csv(PROCESSED_BDTI_DIR / "bdti_with_daily_range.csv")
+bdti_df.to_csv(PROCESSED_BDTI_DIR / "bdti_with_change_and_lag.csv")
 
 print(f"added daily percentage to bdti data of {len(bdti_df)} rows")
