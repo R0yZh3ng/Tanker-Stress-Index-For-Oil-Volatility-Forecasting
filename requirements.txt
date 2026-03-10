@@ -10,3 +10,6 @@ numpy
 
 #visuliztion
 matplotlib
+
+#html read scraper stuff
+lxml
