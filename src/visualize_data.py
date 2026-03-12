@@ -33,12 +33,24 @@ def plot_change(df):
     plt.savefig(FIGURES_DIR / "bdti.png")
     plt.close()
 
+def plot_pct_change(df):
+    plt.figure()
+    plt.plot(df['Date'], df['Percentage_Change'], linestyle='-', color='red')
+    plt.title("weekly crude inventory")
+    plt.xlabel("Dates")
+    plt.ylabel("Percentage change")
+    plt.grid()
+    plt.savefig(FIGURES_DIR / "crude_inventory.png")
+    plt.close()
+
+
 
 oil_df = pd.read_csv(PROCESSED_DATA_DIR / "oil_futures/oil_futures_daily_with_volgk.csv", parse_dates=['Date'])
 bdti_df = pd.read_csv(PROCESSED_DATA_DIR / "bdti/bdti_with_change_and_lag.csv", parse_dates=['Date'])
-
+stock_df = pd.read_csv(PROCESSED_DATA_DIR / "crude_stock/crude_stock_with_pct_change.csv", parse_dates=['Date'])
 
 if __name__ == "__main__":
     plot_volatility(oil_df)
     plot_change(bdti_df)
+    plot_pct_change(stock_df)
 
