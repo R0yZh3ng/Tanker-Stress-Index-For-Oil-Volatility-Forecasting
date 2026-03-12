@@ -10,9 +10,15 @@ PROCESSED_OIL_FUTURES_DIR.mkdir(parents=True, exist_ok=True)
 PROCESSED_BDTI_DIR = PROCESSED_DATA_DIR / "bdti"
 PROCESSED_BDTI_DIR.mkdir(parents=True, exist_ok=True)
 
+PROCESSED_CRUDE_STOCK_DIR = PROCESSED_DATA_DIR / "crude_stock"
+PROCESSED_CRUDE_STOCK_DIR.mkdir(parents=True, exist_ok=True)
+
 PROCESSED_FINAL = PROCESSED_DATA_DIR / "final_concoction"
 PROCESSED_FINAL.mkdir(parents=True, exist_ok=True)
 
+
+
+#NOTE:----------------------------------------------------------This section for volatility------------------------------------------------------------------------------------------------------
 def garman_klass_volatility(df, window):
     """
     Rolling Garman Klass volatility estimator
@@ -39,7 +45,10 @@ oil_df['vol_gk'] = garman_klass_volatility(oil_df, 20)
 oil_df.to_csv(PROCESSED_OIL_FUTURES_DIR / "oil_futures_daily_with_volgk.csv")
 
 print(f"added vol_gk to oil_futures data {len(oil_df) - 20} rows of data (excluding the first 20 since we are using a rolling window of 20)")
+#NOTE:-----------------------------------------------------------End Volatility Section --------------------------------------------------------------------------------------------------------
 
+
+#NOTE:-----------------------------------------------------------This section is for Baltic Dirty Tanker Index -----------------------------------------------------------------------------------
 
 #NOTE: the reason why the below is commented out is that it works but investing.com provided bad data, will have to work with what i have for now, so commenting this out to save resources
 
@@ -78,3 +87,24 @@ bdti_df["lag_5_day"] = bdti_df["decimal_change"].shift(5)
 bdti_df.to_csv(PROCESSED_BDTI_DIR / "bdti_with_change_and_lag.csv")
 
 print(f"added daily percentage to bdti data of {len(bdti_df)} rows")
+
+#NOTE: --------------------------------------------------------End Baltic Dirty Tanker Section ---------------------------------------------------------------------------------------------------
+
+
+#NOTE: --------------------------------------------------------This Section is for crude_inventory -----------------------------------------------------------------------------------------------
+
+
+stock_df = pd.read_excel(RAW_DATA_DIR / "crude_stock/weekly_us_crude_stock.xls", sheet_name="Data 1", skiprows=2)
+stock_df.columns = ["Date", "Inventory_Thousand_Barrels"]
+stock_df["Date"] = pd.to_datetime(stock_df["Date"])
+stock_df.set_index("Date", inplace=True)
+stock_df = stock_df.loc["2020-01-01": "2026-01-01"]
+stock_df["Percentage_Change"] = stock_df["Inventory_Thousand_Barrels"].pct_change()
+
+stock_df.to_csv(PROCESSED_CRUDE_STOCK_DIR / "crude_stock_with_pct_change.csv")
+
+print(f"added weekly pct change to crude inventory data of {len(stock_df)} rows")
+
+#NOTE: -------------------------------------------------------End of crude inventory ------------------------------------------------------------------------------------------------------------
+
+

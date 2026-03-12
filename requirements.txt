@@ -13,3 +13,4 @@ matplotlib
 
 #html read scraper stuff
 lxml
+xlrd #this is the excel reader
